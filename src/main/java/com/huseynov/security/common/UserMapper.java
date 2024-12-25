@@ -1,4 +1,4 @@
-package com.huseynov.security.user;
+package com.huseynov.security.common;
 
 public class UserMapper {
 

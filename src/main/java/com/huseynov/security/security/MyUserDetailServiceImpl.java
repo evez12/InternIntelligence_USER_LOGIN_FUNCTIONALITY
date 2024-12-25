@@ -1,6 +1,6 @@
 package com.huseynov.security.security;
 
-import com.huseynov.security.user.*;
+import com.huseynov.security.common.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

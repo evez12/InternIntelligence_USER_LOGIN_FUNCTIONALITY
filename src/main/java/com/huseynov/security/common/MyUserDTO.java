@@ -1,8 +1,7 @@
-package com.huseynov.security.user;
+package com.huseynov.security.common;
 
 import lombok.Data;
 
-import javax.crypto.spec.PSource;
 import java.util.Set;
 
 @Data

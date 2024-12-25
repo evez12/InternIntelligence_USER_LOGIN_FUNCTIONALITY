@@ -1,4 +1,4 @@
-package com.huseynov.security.user;
+package com.huseynov.security.common;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
