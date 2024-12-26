@@ -1,8 +1,9 @@
 package com.huseynov.security.controller;
 
+import com.huseynov.security.dto.ApiResponse;
 import com.huseynov.security.dto.CreateUserRequest;
-import com.huseynov.security.dto.ResponseUser;
-import com.huseynov.security.security.UserService;
+import com.huseynov.security.dto.UserResponse;
+import com.huseynov.security.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
+    private static final String SUCCESS_MESSAGE = "success";
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<ResponseUser> register(@RequestBody CreateUserRequest request) {
+    public ResponseEntity<ApiResponse<UserResponse>> register(@RequestBody CreateUserRequest request) {
 
-        ResponseUser response = userService.createUser(request);
+        ApiResponse<UserResponse> response = new ApiResponse<>();
+        response.setResults(userService.createUser(request));
+        response.setStatus(SUCCESS_MESSAGE);
 
         return ResponseEntity.ok(response);
     }

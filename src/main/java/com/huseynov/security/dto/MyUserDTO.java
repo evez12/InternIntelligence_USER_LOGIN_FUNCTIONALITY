@@ -1,6 +1,6 @@
 package com.huseynov.security.dto;
 
-import com.huseynov.security.common.Role;
+import com.huseynov.security.model.Role;
 import lombok.Data;
 
 import java.util.Set;

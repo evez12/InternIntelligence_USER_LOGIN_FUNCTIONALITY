@@ -1,5 +1,6 @@
 package com.huseynov.security.security;
 
+import com.huseynov.security.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -45,9 +46,9 @@ public class SecurityConfig {
 
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(MyUserDetailServiceImpl myUserDetailService) {
+    public DaoAuthenticationProvider daoAuthenticationProvider(UserService userService) {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(myUserDetailService);
+        auth.setUserDetailsService(userService);
         auth.setPasswordEncoder(passwordEncoder());
         return auth;
     }

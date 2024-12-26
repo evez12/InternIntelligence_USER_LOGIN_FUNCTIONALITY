@@ -1,4 +1,4 @@
-package com.huseynov.security.common;
+package com.huseynov.security.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
