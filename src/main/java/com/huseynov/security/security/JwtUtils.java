@@ -22,9 +22,6 @@ public class JwtUtils {
     @Value("${spring.app.jwtSecretKey}")
     private String jwtSecret;
 
-    @Value("${spring.app.jwtExpirationMills}")
-    private String jwtExpirationMs;
-
     //    Handle Token
     public String getJwtFromHeader(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
@@ -37,10 +34,13 @@ public class JwtUtils {
 
     public String generateTokenFromUsername(UserDetails userDetails) {
         String username = userDetails.getUsername();
+
+        // 10 days in milliseconds
+        long jwtExpirationMs = 864000000L;
         return Jwts.builder()
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date((new Date(System.currentTimeMillis())).getTime() + Long.getLong(jwtExpirationMs)))
+                .expiration(new Date((new Date(System.currentTimeMillis())).getTime() + jwtExpirationMs))
                 .signWith(key())
                 .compact();
     }
@@ -56,7 +56,7 @@ public class JwtUtils {
 
     public boolean validateJwtToken(String token) {
         try {
-            log.info("Validate");
+            log.info("Validate token: {}", token);
             Jwts.parser()
                     .verifyWith((SecretKey) key())
                     .build()

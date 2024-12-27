@@ -28,7 +28,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         this.userDetailsService = userDetailsService;
     }
 
-
     //    Filters incoming requests and sets the authentication in the security context if a valid JWT token is found.
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,

@@ -3,7 +3,7 @@ package com.huseynov.security.exception;
 import com.huseynov.security.dto.ApiResponse;
 import com.huseynov.security.dto.ErrorDTO;
 import com.huseynov.security.dto.LoginResponse;
-import com.huseynov.security.dto.UserResponse;
+import com.huseynov.security.dto.RegisterResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,8 +15,8 @@ public class GlobalExceptionHandler {
     private static final String FAILED_MESSAGE = "failed";
 
     @ExceptionHandler(ExistsUsernameException.class)
-    public ResponseEntity<ApiResponse<UserResponse>> handlerExistsUsernameException(ExistsUsernameException exception) {
-        ApiResponse<UserResponse> response = new ApiResponse<>();
+    public ResponseEntity<ApiResponse<RegisterResponse>> handlerExistsUsernameException(ExistsUsernameException exception) {
+        ApiResponse<RegisterResponse> response = new ApiResponse<>();
         response.setStatus(FAILED_MESSAGE);
         ErrorDTO errorDTO = new ErrorDTO("username", exception.getMessage());
         response.setErrors(errorDTO);
@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(CustomAuthenticationException.class)
-    public ResponseEntity<ApiResponse<LoginResponse>> handlerNotFoundUsernameException(CustomAuthenticationException exception) {
+    public ResponseEntity<ApiResponse<LoginResponse>> handleCustomerAuthenticationException(CustomAuthenticationException exception) {
         ApiResponse<LoginResponse> response = new ApiResponse<>();
 
         response.setStatus(FAILED_MESSAGE);
@@ -38,8 +38,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<ApiResponse<UserResponse>> handlerNotFoundUsernameException(UsernameNotFoundException exception) {
-        ApiResponse<UserResponse> response = new ApiResponse<>();
+    public ResponseEntity<ApiResponse<LoginResponse>> handlerNotFoundUsernameException(UsernameNotFoundException exception) {
+        ApiResponse<LoginResponse> response = new ApiResponse<>();
         response.setStatus(FAILED_MESSAGE);
         ErrorDTO errorDTO = new ErrorDTO("username", exception.getMessage());
         response.setErrors(errorDTO);

@@ -2,7 +2,6 @@ package com.huseynov.security.util;
 
 import com.huseynov.security.dto.CreateUserRequest;
 import com.huseynov.security.dto.MyUserDTO;
-import com.huseynov.security.dto.UserResponse;
 import com.huseynov.security.model.MyUser;
 
 public class UserMapper {
@@ -36,11 +35,5 @@ public class UserMapper {
         return user;
     }
 
-    public static UserResponse convertEntityToResponseUser(MyUser user) {
-        UserResponse response = new UserResponse();
-        response.setId(user.getId());
-        response.setUsername(user.getUsername());
-        return response;
-    }
 
 }

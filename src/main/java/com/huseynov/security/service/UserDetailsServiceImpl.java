@@ -3,7 +3,6 @@ package com.huseynov.security.service;
 import com.huseynov.security.model.MyUser;
 import com.huseynov.security.model.Role;
 import com.huseynov.security.repo.MyUserRepo;
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,13 +24,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public UserDetails loadUserByUsername(String username) {
 
-        log.info("loadUserByUsername have been called....");
+        log.info("loadUserByUsername called with: {}", username);
         MyUser user = userRepo.findByUsername(username)
                 .orElseThrow(() -> {
-                            log.warn("Not found: {}", username);
+                            log.warn("Not found user with : {}", username);
                             return new UsernameNotFoundException("Invalid username or password");
                         }
                 );

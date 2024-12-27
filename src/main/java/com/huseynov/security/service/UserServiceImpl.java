@@ -3,7 +3,7 @@ package com.huseynov.security.service;
 import com.huseynov.security.dto.CreateUserRequest;
 import com.huseynov.security.dto.LoginRequest;
 import com.huseynov.security.dto.LoginResponse;
-import com.huseynov.security.dto.UserResponse;
+import com.huseynov.security.dto.RegisterResponse;
 import com.huseynov.security.exception.CustomAuthenticationException;
 import com.huseynov.security.exception.ExistsUsernameException;
 import com.huseynov.security.model.MyUser;
@@ -38,10 +38,11 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public UserResponse registerUser(CreateUserRequest request) {
+    public RegisterResponse singUpUser(CreateUserRequest request) {
 
+        // if username exists in db
         if (userRepo.existsByUsername(request.getUsername())) {
-            log.info("exists {}", request.getUsername());
+            log.error("exists {}", request.getUsername());
             throw new ExistsUsernameException("Username already exists, " + request.getUsername());
         }
 
@@ -53,10 +54,22 @@ public class UserServiceImpl implements UserService {
         // Default role user
         Role role1 = roleRepo.findByName("USER");
         user.setRoles(Set.of(role1));
-        MyUser savedUser = userRepo.save(user);
+        MyUser savedUser = userRepo.save(user); // save user to db
+        log.debug("User saved: {}", savedUser);
 
-        return UserMapper
-                .convertEntityToResponseUser(savedUser);
+        // Authenticate user and return username,token,roles
+        LoginResponse loginResponse = authenticateUser(
+                new LoginRequest(
+                        request.getUsername(),
+                        request.getPassword()
+                )
+        );
+
+        return new RegisterResponse(
+                loginResponse.getUsername(),
+                loginResponse.getToken(),
+                loginResponse.getRoles()
+        );
     }
 
     @Override
@@ -85,12 +98,11 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();
+
         return new LoginResponse(
                 userDetails.getUsername(),
                 jwtToken,
                 roles
         );
     }
-
-
 }

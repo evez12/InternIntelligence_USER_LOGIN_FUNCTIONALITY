@@ -26,4 +26,14 @@ public class MyUser {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     Set<Role> roles;
+
+    @Override
+    public String toString() {
+        return "MyUser{" +
+                "id=" + id +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                ", username='" + username + '\'' +
+                '}';
+    }
 }

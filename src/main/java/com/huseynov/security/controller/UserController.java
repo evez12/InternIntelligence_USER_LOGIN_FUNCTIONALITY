@@ -19,25 +19,26 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<UserResponse>> register(@RequestBody CreateUserRequest request) {
-        log.info("Register request: {}", request);
+    public ResponseEntity<ApiResponse<RegisterResponse>> register(@RequestBody CreateUserRequest request) {
+        log.debug("Register request: {}", request);
 
-        ApiResponse<UserResponse> response = new ApiResponse<>();
-        response.setResults(userService.registerUser(request));
-        response.setStatus(SUCCESS_MESSAGE);
+        ApiResponse<RegisterResponse> response = new ApiResponse<>();
+        RegisterResponse registerResponse = userService.singUpUser(request);
+        response.setResults(registerResponse);
+        response.setStatus("Successfully registered");
 
-        log.info("Register response: {}", response);
+        log.debug("Register response: {}", response);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest request) {
 
-        log.info("Login request: {}", request);
+        log.debug("Login request: {}", request);
         ApiResponse<LoginResponse> response = new ApiResponse<>();
         LoginResponse loginResponse = userService.authenticateUser(request);
 
-        log.info("Login response: {}", loginResponse);
+        log.debug("Login response: {}", loginResponse);
         response.setResults(loginResponse);
         response.setStatus(SUCCESS_MESSAGE);
         return ResponseEntity.ok(response);
@@ -52,16 +53,19 @@ public class UserController {
     //    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/user")
     public String user() {
+        log.info("User request");
         return "HELLO USER";
     }
 
     @GetMapping("/manager")
     public String manager() {
+        log.info("Manager request");
         return "HELLO Manager";
     }
 
     @GetMapping("/admin")
     public String admin() {
+        log.info("Admin request");
         return "HELLO ADMIN";
     }
 }
