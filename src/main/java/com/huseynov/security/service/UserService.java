@@ -1,10 +1,13 @@
 package com.huseynov.security.service;
 
 import com.huseynov.security.dto.CreateUserRequest;
+import com.huseynov.security.dto.LoginRequest;
+import com.huseynov.security.dto.LoginResponse;
 import com.huseynov.security.dto.UserResponse;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface UserService extends UserDetailsService {
+public interface UserService  {
 
-    UserResponse createUser(CreateUserRequest request);
+    UserResponse registerUser(CreateUserRequest request);
+
+    LoginResponse authenticateUser(LoginRequest request);
 }

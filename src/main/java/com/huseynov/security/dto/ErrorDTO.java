@@ -13,4 +13,7 @@ public class ErrorDTO {
     private String field;
     private String errorMessage;
 
+    public ErrorDTO(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
 }

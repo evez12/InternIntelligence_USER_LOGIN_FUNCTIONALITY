@@ -23,7 +23,7 @@ public class JwtUtils {
     private String jwtSecret;
 
     @Value("${spring.app.jwtExpirationMills}")
-    private Long jwtExpirationMs;
+    private String jwtExpirationMs;
 
     //    Handle Token
     public String getJwtFromHeader(HttpServletRequest request) {
@@ -40,7 +40,7 @@ public class JwtUtils {
         return Jwts.builder()
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date((new Date(System.currentTimeMillis())).getTime() + jwtExpirationMs))
+                .expiration(new Date((new Date(System.currentTimeMillis())).getTime() + Long.getLong(jwtExpirationMs)))
                 .signWith(key())
                 .compact();
     }

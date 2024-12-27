@@ -1,32 +1,35 @@
 package com.huseynov.security.security;
 
-import com.huseynov.security.service.UserService;
+import com.huseynov.security.exception.CustomAuthenticationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
 @Slf4j
-@Configuration
+@Component
 public class AuthTokenFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
-    private final UserService userService;
+    private final UserDetailsService userDetailsService;
 
-    public AuthTokenFilter(JwtUtils jwtUtils, UserService userService) {
+    public AuthTokenFilter(JwtUtils jwtUtils, UserDetailsService userDetailsService) {
         this.jwtUtils = jwtUtils;
-        this.userService = userService;
+        this.userDetailsService = userDetailsService;
     }
 
+
+    //    Filters incoming requests and sets the authentication in the security context if a valid JWT token is found.
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
@@ -36,7 +39,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUsernameFromToken(jwt);
-                UserDetails userDetails = userService.loadUserByUsername(username);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
                 UsernamePasswordAuthenticationToken authentication = new
                         UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -54,6 +57,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             }
         } catch (Exception e) {
             log.error("Failed during Set authentication to user(doFilterInternal): {}", e.getMessage());
+            throw new CustomAuthenticationException("Failed during check jwt token");
         }
         filterChain.doFilter(request, response);
     }
