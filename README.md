@@ -44,9 +44,9 @@ This project implements **Token-Based Authentication** using **JWT** due to its 
 
 ### Prerequisites
 
-- **Java Development Kit (JDK)**: Version 11 or higher.
+- **Java Development Kit (JDK)**: Version 17 or higher.
 - **Maven**: For building the project.
-- **MySQL Database**: Ensure a MySQL instance is running and accessible.
+- **PostgreSQL Database**: Ensure a PostgreSQL instance is running and accessible.
 
 ### Setup Instructions
 
@@ -118,6 +118,3 @@ The security configuration is handled in the `SecurityConfig` class, which exten
 
 Contributions are welcome! Please fork the repository and create a pull request with your changes. Ensure that your code follows the existing coding standards and includes appropriate tests.
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
