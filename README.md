@@ -31,6 +31,8 @@ Several methods can be employed to handle authentication and authorization:
    - **Cons**: More complex to implement; requires understanding of OAuth2 flows.
 
 ## Chosen Solution: JWT (JSON Web Token)
+> **Note**:  
+> My future plans include integrating OAuth2 to enhance security and flexibility.
 
 This project implements **Token-Based Authentication** using **JWT** due to its stateless nature and scalability benefits. JWTs are self-contained tokens that can securely transmit information between parties. They are particularly well-suited for modern web applications, including single-page applications (SPAs) and mobile apps.
 
