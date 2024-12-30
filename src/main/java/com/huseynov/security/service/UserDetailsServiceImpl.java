@@ -17,6 +17,7 @@ import java.util.Collection;
 @Slf4j
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+
     private final MyUserRepo userRepo;
 
     public UserDetailsServiceImpl(MyUserRepo userRepo) {

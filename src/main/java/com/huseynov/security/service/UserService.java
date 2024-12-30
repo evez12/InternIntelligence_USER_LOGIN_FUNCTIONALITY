@@ -7,7 +7,7 @@ import com.huseynov.security.dto.RegisterResponse;
 
 public interface UserService {
 
-    RegisterResponse singUpUser(CreateUserRequest request);
+    RegisterResponse registerUser(CreateUserRequest request);
 
     LoginResponse authenticateUser(LoginRequest request);
 }

@@ -30,7 +30,7 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        final ApiResponse<String> body = new ApiResponse<>();
+        ApiResponse<String> body = new ApiResponse<>();
         body.setStatus(HttpStatus.UNAUTHORIZED.toString());
         body.setErrors(
                 new ErrorDTO(authException.getMessage())
@@ -39,6 +39,5 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getOutputStream(), body);
-
     }
 }

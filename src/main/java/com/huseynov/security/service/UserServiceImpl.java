@@ -10,18 +10,15 @@ import com.huseynov.security.model.MyUser;
 import com.huseynov.security.model.Role;
 import com.huseynov.security.repo.MyUserRepo;
 import com.huseynov.security.repo.RoleRepo;
-import com.huseynov.security.security.JwtUtils;
+import com.huseynov.security.security.AuthService;
 import com.huseynov.security.util.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,22 +30,22 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
     private final MyUserRepo userRepo;
     private final RoleRepo roleRepo;
-    private final JwtUtils jwtUtils;
-    private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
+    private final AuthService authService;
 
     @Override
-    public RegisterResponse singUpUser(CreateUserRequest request) {
+    public RegisterResponse registerUser(CreateUserRequest request) {
 
         // if username exists in db
         if (userRepo.existsByUsername(request.getUsername())) {
-            log.error("exists {}", request.getUsername());
+            log.error("exists user: {}", request.getUsername());
             throw new ExistsUsernameException("Username already exists, " + request.getUsername());
         }
 
         MyUser user = UserMapper.convertCreateUserToEntity(request);
         user.setPassword(
-                passwordEncoder.encode(request.getPassword())
+                authService
+                        .getPasswordEncoder()
+                        .encode(request.getPassword())
         );
 
         // Default role user
@@ -77,23 +74,17 @@ public class UserServiceImpl implements UserService {
         Authentication authentication;
         try {
             // checking username and password with DaoAuthenticationProvider
-            authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getUsername(),
-                            request.getPassword()
-                    )
-            );
+            authentication = authService
+                    .authentication(request.getUsername(), request.getPassword());
         } catch (AuthenticationException e) {
             log.error("Error in authentication {}", e.getMessage());
             throw new CustomAuthenticationException("Invalid username or password");
         }
 
-        // Set the authentication in the security context (to be used in the future)
-        SecurityContextHolder.getContext().setAuthentication(authentication);
         // Retrieve the authenticated user's details
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        String jwtToken = jwtUtils.generateTokenFromUsername(userDetails);
+        String jwtToken = authService.generateJwtToken(userDetails);
         List<String> roles = userDetails.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)

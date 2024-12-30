@@ -4,6 +4,7 @@ import com.huseynov.security.dto.*;
 import com.huseynov.security.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,12 +24,14 @@ public class UserController {
         log.debug("Register request: {}", request);
 
         ApiResponse<RegisterResponse> response = new ApiResponse<>();
-        RegisterResponse registerResponse = userService.singUpUser(request);
+        RegisterResponse registerResponse = userService.registerUser(request);
         response.setResults(registerResponse);
         response.setStatus("Successfully registered");
 
         log.debug("Register response: {}", response);
-        return ResponseEntity.ok(response);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
     }
 
     @PostMapping("/login")
