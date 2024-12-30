@@ -1,131 +1,122 @@
 # Register and Login System with Spring Security
 
-This repository contains a Spring Boot application that implements a secure user registration and login system using Spring Security. It is designed to showcase best practices for securing web applications, managing user authentication, and handling registration workflows.
+This repository contains a Spring Boot application that demonstrates a secure user registration and login system using Spring Security. The project showcases best practices for implementing authentication and authorization in a web application.
 
----
+## Problem Description
 
-## Features
+Implementing a secure user authentication and authorization system is crucial for web applications to protect sensitive data and ensure that users have appropriate access levels. The challenge involves:
 
-- **User Registration**:
-  - Securely stores user credentials in the database.
-  - Validates user input during the registration process.
-- **User Login**:
-  - Supports authentication with Spring Security.
-  - Implements session-based security.
-- **Password Security**:
-  - Hashes passwords using BCrypt before saving them to the database.
-- **Role Management**:
-  - Allows assigning roles to users (e.g., `ROLE_USER`, `ROLE_ADMIN`).
-- **Frontend Integration**:
-  - Ready to be integrated with modern frontend frameworks.
-- **Error Handling**:
-  - Provides user-friendly error messages for authentication and registration failures.
+- **User Registration**: Allowing new users to create accounts securely.
+- **User Authentication**: Verifying user credentials during login.
+- **Session Management**: Maintaining user sessions after successful login.
+- **Authorization**: Restricting access to resources based on user roles.
 
----
+## Solution Approaches
 
-## Technologies Used
+Several methods can be employed to handle authentication and authorization:
 
-- **Java**: Programming language.
-- **Spring Boot**: Framework for building the application.
-- **Spring Security**: Provides authentication and authorization mechanisms.
-- **Thymeleaf**: Template engine for dynamic web pages (optional for views).
-- **H2 Database**: Embedded database for development and testing.
-- **Maven**: Dependency management and build tool.
+1. **Session-Based Authentication**:
+   - **Description**: Stores user session information on the server after successful login.
+   - **Pros**: Simple to implement; suitable for server-side rendered applications.
+   - **Cons**: Scalability issues in distributed environments; server memory usage increases with the number of users.
 
----
+2. **Token-Based Authentication (e.g., JWT)**:
+   - **Description**: Issues a token (such as a JSON Web Token) to the client upon successful authentication, which is then included in subsequent requests.
+   - **Pros**: Stateless; scalable; suitable for SPAs and mobile applications.
+   - **Cons**: Token management can be complex; requires secure storage on the client side.
 
-## Getting Started
+3. **OAuth2 Authentication**:
+   - **Description**: Allows third-party services to exchange user information securely without exposing user credentials.
+   - **Pros**: Enables integration with external services; enhances security.
+   - **Cons**: More complex to implement; requires understanding of OAuth2 flows.
+
+## Chosen Solution: JWT (JSON Web Token)
+> **Note**:  
+> My future plans include integrating OAuth2 to enhance security and flexibility.
+
+This project implements **Token-Based Authentication** using **JWT** due to its stateless nature and scalability benefits. JWTs are self-contained tokens that can securely transmit information between parties. They are particularly well-suited for modern web applications, including single-page applications (SPAs) and mobile apps.
+
+**Advantages of Using JWT**:
+
+- **Stateless**: No need to store session information on the server, making it easier to scale the application horizontally.
+- **Decentralized Authentication**: Clients can authenticate themselves without continuous server-side checks.
+- **Flexibility**: Can be used across different domains and services.
+
+## How to Use This Project
 
 ### Prerequisites
 
-1. **Java**: Ensure you have JDK 11 or higher installed.
-2. **Maven**: Make sure Maven is installed on your system.
-3. **Database**: The application uses H2 by default. For production, configure another database (e.g., MySQL, PostgreSQL).
+- **Java Development Kit (JDK)**: Version 17 or higher.
+- **Maven**: For building the project.
+- **PostgreSQL Database**: Ensure a PostgreSQL instance is running and accessible.
 
-### Installation Steps
+### Setup Instructions
 
-1. **Clone the repository**:
+1. **Clone the Repository**:
+
    ```bash
-   git clone https://github.com/evez12/Register-login-spring-security.git
-   cd Register-login-spring-security
+   git clone https://github.com/evez12/register-login-spring-security.git
+   cd register-login-spring-security
    ```
 
-2. **Build the project**:
+2. **Configure the Database**:
+
+   - Create a new MySQL database (e.g., `spring_security_db`).
+   - Update the `application.properties` file with your database credentials:
+
+     ```properties
+     spring.datasource.url=jdbc:mysql://localhost:3306/spring_security_db
+     spring.datasource.username=your_db_username
+     spring.datasource.password=your_db_password
+     ```
+
+3. **Build the Project**:
+
    ```bash
    mvn clean install
    ```
 
-3. **Run the application**:
+4. **Run the Application**:
+
    ```bash
    mvn spring-boot:run
    ```
 
-4. **Access the application**:
+5. **Access the Application**:
+
    - Open your browser and navigate to `http://localhost:8080`.
+   - Use the registration page to create a new account.
+   - After registration, log in with your credentials.
 
----
+### Project Structure
 
-## Configuration
+- **`src/main/java`**: Contains the Java source code.
+  - **`controller`**: Handles HTTP requests and responses.
+  - **`service`**: Contains business logic, including user registration and authentication.
+  - **`repository`**: Interfaces for database operations.
+  - **`model`**: Entity classes representing database tables.
+  - **`security`**: Configuration classes for Spring Security and JWT handling.
 
-### Database
+- **`src/main/resources`**: Contains configuration files and templates.
+  - **`application.properties`**: Main configuration file for the application.
+  - **`templates`**: Thymeleaf templates for views (e.g., login and registration pages).
 
-To switch from H2 to a production-grade database, update the `application.properties` file:
+### Key Endpoints
 
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/your_database_name
-spring.datasource.username=your_username
-spring.datasource.password=your_password
-spring.jpa.hibernate.ddl-auto=update
-```
+- **`/register`**: Endpoint for user registration.
+- **`/login`**: Endpoint for user login; returns a JWT upon successful authentication.
+- **`/api/**`**: Secured endpoints requiring authentication; include the JWT in the `Authorization` header as a Bearer token.
 
-### Security
+### Security Configuration
 
-Modify roles, permissions, and other security configurations in the `SecurityConfig` class.
+The security configuration is handled in the `SecurityConfig` class, which extends `WebSecurityConfigurerAdapter`. Key configurations include:
 
----
-
-## Folder Structure
-
-- **src/main/java**: Contains the Java source code.
-  - `controller`: Manages HTTP requests and responses.
-  - `service`: Contains business logic.
-  - `repository`: Interfaces for database operations.
-  - `model`: Defines entity classes.
-  - `config`: Spring Security configurations.
-- **src/main/resources**: Contains application properties and templates.
-  - `application.properties`: Configuration file for the application.
-  - `templates/`: Thymeleaf templates (if applicable).
-
----
-
-## Future Enhancements
-
-- Add OAuth2 login support.
-- Integrate email verification for user registration.
-- Implement password recovery functionality.
-- Enhance UI with modern frontend frameworks like React or Angular.
-
----
+- **Password Encoding**: Uses BCryptPasswordEncoder for hashing passwords.
+- **Authentication Manager**: Configured to use a custom `UserDetailsService` for loading user-specific data.
+- **JWT Authentication Filter**: Intercepts requests to validate the JWT token.
+- **Authorization Rules**: Specifies public and secured endpoints.
 
 ## Contributing
 
-Contributions are welcome! If you have suggestions or improvements, feel free to open an issue or submit a pull request.
-
----
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-## Contact
-
-For any questions or feedback, reach out to **[Əvəz](https://github.com/evez12)** on GitHub.
-
----
-
-## Acknowledgments
-
-Special thanks to the open-source community and Spring Security documentation for inspiration and guidance.
+Contributions are welcome! Please fork the repository and create a pull request with your changes. Ensure that your code follows the existing coding standards and includes appropriate tests.
 
