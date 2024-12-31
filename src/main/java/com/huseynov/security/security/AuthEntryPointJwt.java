@@ -32,10 +32,10 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
         ApiResponse<String> body = new ApiResponse<>();
         body.setStatus(HttpStatus.UNAUTHORIZED.toString());
-        body.setErrors(
-                new ErrorDTO(authException.getMessage())
-        );
-        body.setResults("path: " + request.getServletPath());
+        ErrorDTO error = new ErrorDTO("path: " + request.getServletPath(), authException.getMessage());
+
+        body.setErrors(error);
+
 
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getOutputStream(), body);

@@ -1,9 +1,6 @@
 package com.huseynov.security.service;
 
-import com.huseynov.security.dto.CreateUserRequest;
-import com.huseynov.security.dto.LoginRequest;
-import com.huseynov.security.dto.LoginResponse;
-import com.huseynov.security.dto.RegisterResponse;
+import com.huseynov.security.dto.*;
 import com.huseynov.security.exception.CustomAuthenticationException;
 import com.huseynov.security.exception.ExistsUsernameException;
 import com.huseynov.security.model.MyUser;
@@ -64,7 +61,7 @@ public class UserServiceImpl implements UserService {
 
         return new RegisterResponse(
                 loginResponse.getUsername(),
-                loginResponse.getToken(),
+                loginResponse.getJwtToken(),
                 loginResponse.getRoles()
         );
     }
@@ -95,5 +92,23 @@ public class UserServiceImpl implements UserService {
                 jwtToken,
                 roles
         );
+    }
+
+    @Override
+    public UserProfileResponse getProfileDetails() {
+        log.info("Get profile details");
+        UserProfileResponse response = new UserProfileResponse();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        response.setUsername(userDetails.getUsername());
+        response.setRoles(
+                userDetails.getAuthorities()
+                        .stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .toList()
+        );
+
+        return response;
     }
 }

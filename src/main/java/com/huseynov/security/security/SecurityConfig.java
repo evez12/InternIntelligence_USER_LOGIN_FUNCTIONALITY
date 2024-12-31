@@ -3,6 +3,7 @@ package com.huseynov.security.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -33,8 +34,9 @@ public class SecurityConfig {
                         .requestMatchers("/hello").permitAll()
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/register").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll() // allow pre-flight request (important)
+                        .requestMatchers("/user","/profile").hasAuthority("USER")
                         .requestMatchers("/manager").hasAuthority("MANAGER")
-                        .requestMatchers("/user").hasAuthority("USER")
                         .requestMatchers("/**").hasAuthority("ADMIN") // this should be the last line
                         .anyRequest().authenticated() // any other request should be authenticated
         );
