@@ -32,7 +32,7 @@ public class UserController {
                 .body(response);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/signin")
     public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest request) {
 
         log.debug("Login request: {}", request);

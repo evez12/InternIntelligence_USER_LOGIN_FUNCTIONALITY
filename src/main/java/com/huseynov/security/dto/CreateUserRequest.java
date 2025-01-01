@@ -12,5 +12,4 @@ public class CreateUserRequest {
     @NotBlank(message = "password is required")
     String password;
 
-
 }

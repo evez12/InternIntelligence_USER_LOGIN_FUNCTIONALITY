@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,6 +33,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(request ->
                 request
                         .requestMatchers("/hello").permitAll()
+                        .requestMatchers("/signin").permitAll()
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/register").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll() // allow pre-flight request (important)
@@ -45,15 +47,16 @@ public class SecurityConfig {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
 
-
 //        invalid token exception handling
         http.exceptionHandling(exception ->
                 exception.authenticationEntryPoint(unauthorizedHandler));
 
         http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-        http.formLogin(AbstractHttpConfigurer::disable);
-        http.httpBasic(AbstractHttpConfigurer::disable);
+//        http.oauth2Login(auth-> auth.defaultSuccessUrl("/user", true));
+
+        http.formLogin(Customizer.withDefaults());
+        http.httpBasic(Customizer.withDefaults());
         http.csrf(AbstractHttpConfigurer::disable);  // csrf disabled
 
         return http.build();
