@@ -64,9 +64,9 @@ const Login = () => {
             });
             if (response.ok) {
                 const data = await response.json();
-                setJwt(data.results.jwtToken); // JWT qeydiyyat zamanı qaytarılmalıdır
+                setJwt(data.results.jwtToken); 
                 setMessage("Registration successful");
-                fetchUserProfile(data.results.jwtToken); // Qeydiyyatdan sonra profilə yönləndir
+                fetchUserProfile(data.results.jwtToken); 
             } else {
                 setMessage("Registration failed. Please try again.");
             }
