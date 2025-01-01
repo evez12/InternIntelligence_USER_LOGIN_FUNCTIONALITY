@@ -67,7 +67,11 @@ const Login = () => {
                 setJwt(data.results.jwtToken); 
                 setMessage("Registration successful");
                 fetchUserProfile(data.results.jwtToken); 
-            } else {
+            }
+            else if(response.status === 400) {
+                setMessage("Username already exists. Please try again.");
+            }
+            else {
                 setMessage("Registration failed. Please try again.");
             }
         } catch (error) {
