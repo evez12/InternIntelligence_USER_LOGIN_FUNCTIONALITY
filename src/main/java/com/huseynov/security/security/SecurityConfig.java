@@ -35,7 +35,8 @@ public class SecurityConfig {
                         .requestMatchers("/hello").permitAll()
                         .requestMatchers("/signin").permitAll()
                         .requestMatchers("/login").permitAll()
-                        .requestMatchers("/register").permitAll()
+                        .requestMatchers("/oauth2/**").permitAll()
+                        .requestMatchers("/signup").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll() // allow pre-flight request (important)
                         .requestMatchers("/user","/profile").hasAuthority("USER")
                         .requestMatchers("/manager").hasAuthority("MANAGER")
@@ -53,7 +54,6 @@ public class SecurityConfig {
 
         http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-//        http.oauth2Login(auth-> auth.defaultSuccessUrl("/user", true));
 
         http.formLogin(Customizer.withDefaults());
         http.httpBasic(Customizer.withDefaults());

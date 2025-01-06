@@ -1,0 +1,34 @@
+spring:
+  main:
+    banner-mode: off
+  application:
+    name: security
+  datasource:
+    url: jdbc:postgresql://localhost:5432/spring_security
+    username: evez
+    password: evez
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  app:
+    jwtSecret: SecretKey123HbHpNubSGq5656GYggftryweuiu12sewwue
+
+# Logging Configuration
+logging:
+  level:
+    file:
+      path:
+      name:
+    root: warn
+    org.springframework.web: debug
+    org.hibernate: error
+    org.springframework.security: debug
+    com.huseynov.security: debug
+    include-aplication-group: false
+    inculde-aplication-name: false

@@ -19,7 +19,7 @@ import java.util.Date;
 @Component
 @Slf4j
 public class JwtService {
-    @Value("${spring.app.jwtSecretKey}")
+    @Value("${spring.app.jwtSecret}")
     private String jwtSecret;
 
     //    Handle Token

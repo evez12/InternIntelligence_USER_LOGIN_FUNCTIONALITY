@@ -17,8 +17,8 @@ public class UserController {
     private static final String SUCCESS_MESSAGE = "success";
     private final UserService userService;
 
-    @PostMapping("/register")
-    public ResponseEntity<ApiResponse<RegisterResponse>> register(@RequestBody CreateUserRequest request) {
+    @PostMapping("/signup")
+        public ResponseEntity<ApiResponse<RegisterResponse>> register(@RequestBody CreateUserRequest request) {
         log.debug("Register request: {}", request);
 
         ApiResponse<RegisterResponse> response = new ApiResponse<>();

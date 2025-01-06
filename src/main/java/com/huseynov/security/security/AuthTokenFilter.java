@@ -34,6 +34,12 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         log.info("AuthTokenFilter called");
+//        if (request.getServletPath().startsWith("/oauth2")) {
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
+        log.info("Request path: {}", request.getServletPath());
+
         try {
             String jwt = parseJwt(request);
             if (jwt != null && jwtService.validateJwtToken(jwt)) {
