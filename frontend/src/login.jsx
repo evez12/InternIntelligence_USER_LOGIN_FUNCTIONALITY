@@ -8,10 +8,6 @@ const Login = () => {
     const [profile, setProfile] = useState(null);
     const [isRegistering, setIsRegistering] = useState(false);
 
-    const handleOAuthLogin = (provider) => {
-        window.location.href = `http://localhost:8080/oauth2/authorize/${provider}?redirect_uri=http://localhost:5174`;
-    };
-
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
@@ -36,34 +32,6 @@ const Login = () => {
         }
     };
 
-    const handleRegister = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch("http://localhost:8080/signup", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ username, password }),
-            });
-            if (response.ok) {
-                const data = await response.json();
-                setJwt(data.results.jwtToken); 
-                setMessage("Registration successful");
-                fetchUserProfile(data.results.jwtToken); 
-            }
-            else if(response.status === 400) {
-                setMessage("Username already exists. Please try again.");
-            }
-            else {
-                setMessage("Registration failed. Please try again.");
-            }
-        } catch (error) {
-            console.log(error);
-            setMessage("Please try again. Registration");
-        }
-    };
-
     const fetchUserProfile = async (token) => {
         try {
             const response = await fetch("http://localhost:8080/profile", {
@@ -84,6 +52,30 @@ const Login = () => {
         }
     };
 
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch("http://localhost:8080/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ username, password }),
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setJwt(data.results.jwtToken); 
+                setMessage("Registration successful");
+                fetchUserProfile(data.results.jwtToken); 
+            } else {
+                setMessage("Registration failed. Please try again.");
+            }
+        } catch (error) {
+            console.log(error);
+            setMessage("Please try again. Registration");
+        }
+    };
+
     const handleLogout = () => {
         setUsername("");
         setPassword("");
@@ -93,94 +85,64 @@ const Login = () => {
     };
 
     return (
-        <div style={{ maxWidth: "400px", margin: "0 auto", padding: "20px" }}>
+        <div>
             {!profile && !isRegistering ? (
-                <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+                <form onSubmit={handleLogin}>
                     <div>
-                        <label>Username</label>
+                        <label>Username  </label>
                         <input
                             type="text"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             required
-                            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
                         />
                     </div>
                     <div>
-                        <label>Password</label>
+                        <label>Password  </label>
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
-                            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
                         />
                     </div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}>
-                        <button type="submit" style={{ padding: "10px 20px" }}>Login</button>
-                        <button type="button" onClick={() => setIsRegistering(true)} style={{ padding: "10px 20px" }}>
-                            Register
-                        </button>
-                    </div>
-                    <hr style={{ margin: "15px 0" }} />
-                    <button
-                        type="button"
-                        onClick={() => handleOAuthLogin("google")}
-                        style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", padding: "10px 20px" }}
-                    >
-                        <img src="https://pngdow.com/files/preview/800x800/11722280805b4vi91domiophd87cjmnmwtjhyopqholatbnxkuahnxchtd6y9zusubuq8mgxlhi6kg2nmduczbhghtlyfrdsx0sitjn3ngget0q.png" alt="Google" width="20" />
-                        Login with Google
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => handleOAuthLogin("github")}
-                        style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", padding: "10px 20px" }}
-                    >
-                        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" width="20" />
-                        Login with GitHub
-                    </button>
+                    <button type="submit">Login</button>
+                    <button type="button" onClick={() => setIsRegistering(true)}>Register</button>
                 </form>
             ) : !profile && isRegistering ? (
-                <form onSubmit={handleRegister} style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+                <form onSubmit={handleRegister}>
                     <div>
-                        <label>Username</label>
+                        <label>Username  </label>
                         <input
                             type="text"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             required
-                            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
                         />
                     </div>
                     <div>
-                        <label>Password</label>
+                        <label>Password  </label>
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
-                            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
                         />
                     </div>
-                    <button type="submit" style={{ padding: "10px 20px" }}>Register</button>
-                    <button
-                        type="button"
-                        onClick={() => setIsRegistering(false)}
-                        style={{ padding: "10px 20px" }}
-                    >
-                        Back to Login
-                    </button>
+                    <button type="submit">Register</button>
+                    <button type="button" onClick={() => setIsRegistering(false)}>Back to Login</button>
                 </form>
             ) : (
-                <div className="profile">
-                    <h3>User Profile</h3>
+                <div className='profile'>
+                    <h3>User Profile</h3>   
                     <p>Username: {profile.results.username}</p>
                     <p>Roles: {profile.results.roles.join(", ")}</p>
                     <p>JWT Token: {jwt}</p>
-                    <button onClick={handleLogout} style={{ padding: "10px 20px" }}>Logout</button>
+                    <p>Message: {profile.status}</p>
+                    <button onClick={handleLogout}>Logout</button>
                 </div>
             )}
-            <div className="message">{message && <p>{message}</p>}</div>
+            <div className='message'>{message && <p>{message}</p>}</div>
         </div>
     );
 };
