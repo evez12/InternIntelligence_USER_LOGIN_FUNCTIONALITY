@@ -103,8 +103,8 @@ This project implements **Token-Based Authentication** using **JWT** due to its 
 
 ### Key Endpoints
 
-- **`/register`**: Endpoint for user registration.
-- **`/login`**: Endpoint for user login; returns a JWT upon successful authentication.
+- **`/signup`**: Endpoint for user registration.
+- **`/signin`**: Endpoint for user login; returns a JWT upon successful authentication.
 - **`/api/**`**: Secured endpoints requiring authentication; include the JWT in the `Authorization` header as a Bearer token.
 
 ### Security Configuration
