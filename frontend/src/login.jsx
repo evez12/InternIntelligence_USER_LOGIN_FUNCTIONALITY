@@ -55,7 +55,7 @@ const Login = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch("http://localhost:8080/register", {
+            const response = await fetch("http://localhost:8080/signup", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
