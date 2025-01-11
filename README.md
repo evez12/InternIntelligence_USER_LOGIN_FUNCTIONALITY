@@ -1,6 +1,5 @@
 # Register and Login System with Spring Security
-
-This repository contains a Spring Boot application that demonstrates a secure user registration and login system using Spring Security. The project showcases best practices for implementing authentication and authorization in a web application.
+This repository contains a Spring Boot application that demonstrates a secure user registration and login system using Spring Security. The project implements authentication and authorisation in web applications.
 
 ## Problem Description
 
@@ -55,8 +54,8 @@ This project implements **Token-Based Authentication** using **JWT** due to its 
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/evez12/register-login-spring-security.git
-   cd register-login-spring-security
+   git clone https://github.com/evez12/InternIntelligence_USER_LOGIN_FUNCTIONALITY.git
+   cd InternIntelligence_USER_LOGIN_FUNCTIONALITY
    ```
 
 2. **Configure the Database**:
@@ -65,7 +64,7 @@ This project implements **Token-Based Authentication** using **JWT** due to its 
    - Update the `application.properties` file with your database credentials:
 
      ```properties
-     spring.datasource.url=jdbc:mysql://localhost:3306/spring_security_db
+     spring.datasource.url=jdbc:mysql://localhost:3306/your_db
      spring.datasource.username=your_db_username
      spring.datasource.password=your_db_password
      ```
