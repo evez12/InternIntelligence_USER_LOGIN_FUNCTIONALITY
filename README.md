@@ -54,7 +54,7 @@ This project implements **Token-Based Authentication** using **JWT** due to its 
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/evez12/register-login-spring-security.git
+   git clone https://github.com/evez12/InternIntelligence_USER_LOGIN_FUNCTIONALITY.git
    cd register-login-spring-security
    ```
 
@@ -64,7 +64,7 @@ This project implements **Token-Based Authentication** using **JWT** due to its 
    - Update the `application.properties` file with your database credentials:
 
      ```properties
-     spring.datasource.url=jdbc:mysql://localhost:3306/spring_security_db
+     spring.datasource.url=jdbc:mysql://localhost:3306/your_db
      spring.datasource.username=your_db_username
      spring.datasource.password=your_db_password
      ```
