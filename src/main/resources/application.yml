@@ -19,7 +19,6 @@ spring:
   app:
     jwtSecret: SecretKey123HbHpNubSGq5656GYggftryweuiu12sewwue
 
-
 # Logging Configuration
 logging:
   level:
