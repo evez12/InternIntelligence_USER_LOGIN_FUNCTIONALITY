@@ -25,7 +25,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-//    @Transactional
     public UserDetails loadUserByUsername(String username) {
 
         log.info("loadUserByUsername called with: {}", username);

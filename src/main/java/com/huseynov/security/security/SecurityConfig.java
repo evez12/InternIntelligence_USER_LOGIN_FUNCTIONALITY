@@ -37,7 +37,7 @@ public class SecurityConfig {
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/oauth2/**").permitAll()
                         .requestMatchers("/signup").permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll() // allow pre-flight request (important)
+                        .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll() //
                         .requestMatchers("/user","/profile").hasAuthority("USER")
                         .requestMatchers("/manager").hasAuthority("MANAGER")
                         .requestMatchers("/**").hasAuthority("ADMIN") // this should be the last line

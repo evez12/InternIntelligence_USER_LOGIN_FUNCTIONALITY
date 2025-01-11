@@ -79,6 +79,10 @@ public class UserServiceImpl implements UserService {
         }
 
         // Retrieve the authenticated user's details
+        return getLoginResponse(authentication);
+    }
+
+    private LoginResponse getLoginResponse(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         String jwtToken = authService.generateJwtToken(userDetails);
