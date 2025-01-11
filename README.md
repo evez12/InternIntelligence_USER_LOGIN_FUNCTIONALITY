@@ -1,6 +1,5 @@
 # Register and Login System with Spring Security
-
-This repository contains a Spring Boot application that demonstrates a secure user registration and login system using Spring Security. The project showcases best practices for implementing authentication and authorization in a web application.
+This repository contains a Spring Boot application that demonstrates a secure user registration and login system using Spring Security. The project implements authentication and authorisation in web applications.
 
 ## Problem Description
 
