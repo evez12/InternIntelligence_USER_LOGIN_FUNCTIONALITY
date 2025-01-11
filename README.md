@@ -55,7 +55,7 @@ This project implements **Token-Based Authentication** using **JWT** due to its 
 
    ```bash
    git clone https://github.com/evez12/InternIntelligence_USER_LOGIN_FUNCTIONALITY.git
-   cd register-login-spring-security
+   cd InternIntelligence_USER_LOGIN_FUNCTIONALITY
    ```
 
 2. **Configure the Database**:
