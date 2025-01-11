@@ -42,6 +42,7 @@ This project implements **Token-Based Authentication** using **JWT** due to its 
 - **Flexibility**: Can be used across different domains and services.
 
 ## How to Use This Project
+[![Video Title](https://img.youtube.com/vi/qamSMQrAufQ/0.jpg)](https://www.youtube.com/watch?v=qamSMQrAufQ)
 
 ### Prerequisites
 
