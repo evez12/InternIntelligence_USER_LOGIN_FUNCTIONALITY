@@ -40,6 +40,13 @@ This project implements **Token-Based Authentication** using **JWT** due to its 
 - **Stateless**: No need to store session information on the server, making it easier to scale the application horizontally.
 - **Decentralized Authentication**: Clients can authenticate themselves without continuous server-side checks.
 - **Flexibility**: Can be used across different domains and services.
+## Features
+
+- **User Registration**: Secure functionality for new users to register
+- **Login System**: Authenticate users securely
+- **Password Encryption**: Uses **BCrypt** to hash passwords
+- **Role-Based Access Control**: Manage permissions for different user roles
+- **Database Integration**: Connects seamlessly with relational databases using Spring Data JPA
 
 ## How to Use This Project
 [![Video Title](https://img.youtube.com/vi/qamSMQrAufQ/0.jpg)](https://www.youtube.com/watch?v=qamSMQrAufQ)
