@@ -62,8 +62,8 @@ This project implements **Token-Based Authentication** using **JWT** due to its 
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/evez12/InternIntelligence_USER_LOGIN_FUNCTIONALITY.git
-   cd InternIntelligence_USER_LOGIN_FUNCTIONALITY
+   git clone https://github.com/evez12/User_Auth_System.git
+   cd User_Auth_System
    ```
 
 2. **Configure the Database**:
